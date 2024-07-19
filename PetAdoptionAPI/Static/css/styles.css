@@ -1,36 +1,45 @@
-/* static/css/styles.css */
+/* styles.css */
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #F3FBE6;
     margin: 0;
     padding: 0;
 }
 
-#content {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+header, footer {
+    background-color: #FBEEE6;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
 }
 
 h1 {
-    text-align: center;
-    color: #333;
+    color: #F26B8B; /* Rouge for the header text */
+    margin: 0;
 }
 
-#pet-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+main {
+    padding: 20px;
 }
 
-.pet-card {
-    width: calc(33.333% - 20px);
-    background-color: #e9e9e9;
+#pets-list-section {
+    background-color: white;
     border-radius: 5px;
     padding: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+ul#pets-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul#pets-list li {
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
