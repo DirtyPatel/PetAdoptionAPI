@@ -4,6 +4,7 @@ from flask import jsonify
 class PetCRUD:
     def __init__(self, db):
         self.db = db
+        self.pets = self.db.pets
 
     def add_pet(self, pet_data):
         pet_id = self.db.pets.insert_one(pet_data).inserted_id
