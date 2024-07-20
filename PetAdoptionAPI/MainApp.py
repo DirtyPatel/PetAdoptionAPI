@@ -1,65 +1,63 @@
 from flask import Flask, request, jsonify, render_template
-from flask_pymongo import PyMongo
-from PetCRUD import PetCRUD
+from pymongo import MongoClient
+from bson import ObjectId
+from PetCRUD import PetCRUD  # Import PetCRUD class
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/PetAdoptionDB"
-mongo = PyMongo(app)
-pet_crud = PetCRUD(mongo.db)
+
+client = MongoClient('mongodb://localhost:27017/')
+db = client['PetAdoptionDB']
+pets_collection = db['pets']
+
+# Initialize PetCRUD class
+pet_crud = PetCRUD(db)
 
 
-# Route to render the landing page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Route to render the admin page
+
 @app.route('/admin')
 def admin():
     return render_template('admin.html')
 
+
+@app.route('/api/search_pets', methods=['POST'])
+def search_pets():
+    request_data = request.json
+    pet_types = request_data.get('types', [])
+    pets = list(pets_collection.find({'type': {'$in': pet_types}}))
+    for pet in pets:
+        pet['_id'] = str(pet['_id'])
+    return jsonify(pets)
+
+
 @app.route('/add_pet', methods=['POST'])
 def add_pet():
-    data = request.get_json()
-    pet_id = pet_crud.add_pet(data)
-    return jsonify(pet_id), 201
+    pet_data = request.json
+    pets_collection.insert_one(pet_data)
+    return jsonify({'status': 'Pet added successfully'})
 
-@app.route('/pets/<int:id>', methods=['GET'])
-def get_pet(id):
-    pet = pet_crud.get_pet(id)
-    if pet:
-        return jsonify(pet), 200
-    else:
-        return jsonify({"error": "Pet not found"}), 404
 
-@app.route('/update_pet/<int:id>', methods=['PUT'])
-def update_pet(id):
-    data = request.get_json()
-    success = pet_crud.update_pet(id, data)
-    if success:
-        return jsonify({"message": "Pet updated"}), 200
-    else:
-        return jsonify({"error": "Pet not found"}), 404
+@app.route('/update_pet/<pet_id>', methods=['PUT'])
+def update_pet(pet_id):
+    updated_data = request.json
+    pets_collection.update_one({'_id': ObjectId(pet_id)}, {'$set': updated_data})
+    return jsonify({'status': 'Pet updated successfully'})
 
-@app.route('/delete_pet/<int:id>', methods=['DELETE'])
-def delete_pet(id):
-    success = pet_crud.delete_pet(id)
-    if success:
-        return jsonify({"message": "Pet deleted"}), 200
-    else:
-        return jsonify({"error": "Pet not found"}), 404
 
-# API endpoint to add sample pet data
-@app.route('/api/add_sample_data', methods=['GET'])
+@app.route('/delete_pet/<pet_id>', methods=['DELETE'])
+def delete_pet(pet_id):
+    pets_collection.delete_one({'_id': ObjectId(pet_id)})
+    return jsonify({'status': 'Pet deleted successfully'})
+
+
+@app.route('/add_sample_data', methods=['GET'])
 def add_sample_data():
-    inserted_ids = pet_crud.add_sample_data()
-    return jsonify({"inserted_ids": inserted_ids}), 201
+    added_ids = pet_crud.add_sample_data()
+    return jsonify({'status': 'Sample data added successfully', 'ids': added_ids})
 
-@app.route('/api/search_pets', methods=['GET'])
-def search_pets():
-    query_params = request.args
-    pets = pet_crud.search_pets(query_params)
-    return jsonify(pets), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

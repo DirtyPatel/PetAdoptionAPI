@@ -76,6 +76,19 @@ class PetCRUD:
              "adoption_status": "Available"},
             {"_id": 20, "name": "Finn", "age": 1, "breed": "Cocker Spaniel", "type": "Dog",
              "description": "Loves water", "adoption_status": "Adopted"},
+            {"_id": 21, "name": "Chirpy", "age": 2, "breed": "Parakeet", "type": "Bird",
+             "description": "Colorful and talkative", "adoption_status": "Adopted"},
+            {"_id": 22, "name": "Fluffy", "age": 3, "breed": "Syrian", "type": "Hamster",
+             "description": "Loves to burrow", "adoption_status": "Available"},
+            {"_id": 23, "name": "Nibbles", "age": 1, "breed": "Dwarf", "type": "Hamster", "description": "Very playful",
+             "adoption_status": "Available"},
+            {"_id": 24, "name": "Thumper", "age": 2, "breed": "Lop", "type": "Rabbit", "description": "Loves to hop",
+             "adoption_status": "Adopted"},
+            {"_id": 25, "name": "BunBun", "age": 4, "breed": "Angora", "type": "Rabbit", "description": "Very fluffy",
+             "adoption_status": "Available"},
+            {"_id": 26, "name": "Snowball", "age": 2, "breed": "Rex", "type": "Rabbit",
+             "description": "Gentle and calm", "adoption_status": "Available"}
+
         ]
         self.pets.delete_many({})  # Clear the collection first
         result = self.pets.insert_many(sample_data)

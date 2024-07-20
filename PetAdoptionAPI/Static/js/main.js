@@ -4,30 +4,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to fetch and display pets based on type
     function fetchAndDisplayPets(type) {
-        fetch('/api/search_pets?type=' + type)
-            .then(response => response.json())
-            .then(data => {
-                petsList.innerHTML = '';
-                if (data.length > 0) {
-                    data.forEach(pet => {
-                        let petItem = document.createElement('li');
-                        petItem.innerHTML = `
-                            <h3>${pet.name}</h3>
-                            <p><strong>Breed:</strong> ${pet.breed}</p>
-                            <p><strong>Type:</strong> ${pet.type}</p>
-                            <p><strong>Age:</strong> ${pet.age}</p>
-                            <p><strong>Description:</strong> ${pet.description}</p>
-                            <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
-                            <button onclick="adoptPet('${pet._id}')">Adopt</button>
-                            <button onclick="deletePet('${pet._id}')">Delete</button>
-                        `;
-                        petsList.appendChild(petItem);
-                    });
-                } else {
-                    petsList.innerHTML = '<p>No pets available.</p>';
-                }
-                petsList.style.display = 'block';
-            });
+        let queryType;
+        if (type === 'Other') {
+            queryType = ['Bird', 'Hamster', 'Rabbit'];
+        } else {
+            queryType = [type];
+        }
+
+        fetch('/api/search_pets', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ types: queryType })
+        })
+        .then(response => response.json())
+        .then(data => {
+            petsList.innerHTML = '';
+            if (data.length > 0) {
+                data.forEach(pet => {
+                    let petItem = document.createElement('li');
+                    petItem.innerHTML = `
+                        <h3>${pet.name}</h3>
+                        <p><strong>Breed:</strong> ${pet.breed}</p>
+                        <p><strong>Type:</strong> ${pet.type}</p>
+                        <p><strong>Age:</strong> ${pet.age}</p>
+                        <p><strong>Description:</strong> ${pet.description}</p>
+                        <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
+                        <button onclick="adoptPet('${pet._id}')">Adopt</button>
+                        <button onclick="deletePet('${pet._id}')">Delete</button>
+                    `;
+                    petsList.appendChild(petItem);
+                });
+            } else {
+                petsList.innerHTML = '<p>No pets available.</p>';
+            }
+            petsList.style.display = 'block';
+        });
     }
 
     // Add event listeners to filter buttons
