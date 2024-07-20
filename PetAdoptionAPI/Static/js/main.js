@@ -4,15 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to fetch and display pets based on type
     function fetchAndDisplayPets(type) {
-        console.log('Fetching pets of type:', type);
         fetch('/api/search_pets?type=' + type)
             .then(response => response.json())
             .then(data => {
-                console.log('Fetched data:', data);
                 petsList.innerHTML = '';
-                if (data.length === 0) {
-                    petsList.innerHTML = '<li>No pets available.</li>';
-                } else {
+                if (data.length > 0) {
                     data.forEach(pet => {
                         let petItem = document.createElement('li');
                         petItem.innerHTML = `
@@ -27,11 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         `;
                         petsList.appendChild(petItem);
                     });
+                } else {
+                    petsList.innerHTML = '<p>No pets available.</p>';
                 }
                 petsList.style.display = 'block';
-            })
-            .catch(error => {
-                console.error('Error fetching pets:', error);
             });
     }
 
@@ -59,12 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Pet added:', data);
             const type = document.querySelector('.filter-button.active').getAttribute('data-type');
             fetchAndDisplayPets(type);
-        })
-        .catch(error => {
-            console.error('Error adding pet:', error);
         });
     });
 });
@@ -79,12 +70,8 @@ function adoptPet(id) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Pet adopted:', data);
         const type = document.querySelector('.filter-button.active').getAttribute('data-type');
         fetchAndDisplayPets(type);
-    })
-    .catch(error => {
-        console.error('Error adopting pet:', error);
     });
 }
 
@@ -94,11 +81,7 @@ function deletePet(id) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Pet deleted:', data);
         const type = document.querySelector('.filter-button.active').getAttribute('data-type');
         fetchAndDisplayPets(type);
-    })
-    .catch(error => {
-        console.error('Error deleting pet:', error);
     });
 }

@@ -11,51 +11,21 @@
         <h1>Pet Adoption Catalog</h1>
     </header>
     <main>
-        <div class="container">
-            <section id="add-pet-section">
-                <h2>Add a New Pet</h2>
-                <form id="add-pet-form">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="age">Age:</label>
-                    <input type="text" id="age" name="age" required>
-                    <label for="breed">Breed:</label>
-                    <input type="text" id="breed" name="breed" required>
-                    <label for="type">Type:</label>
-                    <input type="text" id="type" name="type" required>
-                    <label for="description">Description:</label>
-                    <input type="text" id="description" name="description" required>
-                    <label for="adoption_status">Adoption Status:</label>
-                    <select id="adoption_status" name="adoption_status" required>
-                        <option value="Available">Available</option>
-                        <option value="Adopted">Adopted</option>
-                    </select>
-                    <button type="submit">Add Pet</button>
-                </form>
-            </section>
-
-            <section id="filter-pets-section">
-                <h2>Filter Pets</h2>
-                <div class="filter-buttons">
-                    <button class="filter-button" data-type="Dog">
-                        <img src="/static/images/dog-icon.png" alt="Dogs">
-                        Dogs
-                    </button>
-                    <button class="filter-button" data-type="Cat">
-                        <img src="/static/images/cat-icon.png" alt="Cats">
-                        Cats
-                    </button>
-                    <button class="filter-button" data-type="Other">
-                        <img src="/static/images/other-icon.png" alt="Other Animals">
-                        Other Animals
-                    </button>
-                </div>
-            </section>
-        </div>
-
-        <section id="pets-list-section">
-            <h2>Available Pets</h2>
-            <ul id="pets-list" style="display: none;"></ul>
+        <section id="filter-pets-section">
+            <div class="filter-buttons">
+                <button class="filter-button" data-type="Dog">
+                    <img src="/static/images/dog-icon.png" alt="Dogs">
+                    Dogs
+                </button>
+                <button class="filter-button" data-type="Cat">
+                    <img src="/static/images/cat-icon.png" alt="Cats">
+                    Cats
+                </button>
+                <button class="filter-button" data-type="Other">
+                    <img src="/static/images/other-icon.png" alt="Other Animals">
+                    Other Animals
+                </button>
+            </div>
         </section>
     </main>
     <footer>
