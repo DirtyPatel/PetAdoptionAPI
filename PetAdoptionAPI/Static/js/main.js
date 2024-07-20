@@ -1,43 +1,104 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch and display pet data
-    fetch('/api/pets')
-        .then(response => response.json())
-        .then(data => {
-            let petsList = document.getElementById('pets-list');
-            data.forEach(pet => {
-                let petItem = document.createElement('li');
-                petItem.innerHTML = `
-                    <h3>${pet.name}</h3>
-                    <p><strong>Breed:</strong> ${pet.breed}</p>
-                    <p><strong>Type:</strong> ${pet.type}</p>
-                    <p><strong>Age:</strong> ${pet.age}</p>
-                    <p><strong>Description:</strong> ${pet.description}</p>
-                    <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
-                `;
-                petsList.appendChild(petItem);
-            });
-        })
-        .catch(error => console.error('Error fetching pet data:', error));
+    const petsList = document.getElementById('pets-list');
+    const addPetForm = document.getElementById('add-pet-form');
 
-    // Handle add pet form submission
-    document.getElementById('add-pet-form').addEventListener('submit', function(event) {
+    // Function to fetch and display pets based on type
+    function fetchAndDisplayPets(type) {
+        console.log('Fetching pets of type:', type);
+        fetch('/api/search_pets?type=' + type)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data);
+                petsList.innerHTML = '';
+                if (data.length === 0) {
+                    petsList.innerHTML = '<li>No pets available.</li>';
+                } else {
+                    data.forEach(pet => {
+                        let petItem = document.createElement('li');
+                        petItem.innerHTML = `
+                            <h3>${pet.name}</h3>
+                            <p><strong>Breed:</strong> ${pet.breed}</p>
+                            <p><strong>Type:</strong> ${pet.type}</p>
+                            <p><strong>Age:</strong> ${pet.age}</p>
+                            <p><strong>Description:</strong> ${pet.description}</p>
+                            <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
+                            <button onclick="adoptPet('${pet._id}')">Adopt</button>
+                            <button onclick="deletePet('${pet._id}')">Delete</button>
+                        `;
+                        petsList.appendChild(petItem);
+                    });
+                }
+                petsList.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching pets:', error);
+            });
+    }
+
+    // Add event listeners to filter buttons
+    document.querySelectorAll('.filter-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const type = this.getAttribute('data-type');
+            fetchAndDisplayPets(type);
+        });
+    });
+
+    // Add a new pet
+    addPetForm.addEventListener('submit', function(event) {
         event.preventDefault();
         let formData = new FormData(this);
-        let petData = {};
-        formData.forEach((value, key) => petData[key] = value);
+        let jsonData = {};
+        formData.forEach((value, key) => jsonData[key] = value);
 
         fetch('/add_pet', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(petData)
+            body: JSON.stringify(jsonData)
         })
         .then(response => response.json())
         .then(data => {
-            alert('Pet added successfully!');
-            location.reload(); // Reload the page to see the new pet in the list
+            console.log('Pet added:', data);
+            const type = document.querySelector('.filter-button.active').getAttribute('data-type');
+            fetchAndDisplayPets(type);
         })
-        .catch(error => console.error('Error adding pet:', error));
+        .catch(error => {
+            console.error('Error adding pet:', error);
+        });
     });
 });
+
+function adoptPet(id) {
+    fetch(`/update_pet/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ adoption_status: 'Adopted' })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Pet adopted:', data);
+        const type = document.querySelector('.filter-button.active').getAttribute('data-type');
+        fetchAndDisplayPets(type);
+    })
+    .catch(error => {
+        console.error('Error adopting pet:', error);
+    });
+}
+
+function deletePet(id) {
+    fetch(`/delete_pet/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Pet deleted:', data);
+        const type = document.querySelector('.filter-button.active').getAttribute('data-type');
+        fetchAndDisplayPets(type);
+    })
+    .catch(error => {
+        console.error('Error deleting pet:', error);
+    });
+}

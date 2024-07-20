@@ -1,45 +1,151 @@
-/* styles.css */
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #F3FBE6;
-    margin: 0;
-    padding: 0;
-}
-
-header, footer {
-    background-color: #FBEEE6;
-    color: white;
+    background-color: #ffddca;
+    color: #333;
     text-align: center;
-    padding: 10px 0;
 }
 
-h1 {
-    color: #F26B8B; /* Rouge for the header text */
+header {
+    background-color: #FF9999;
+    padding: 20px 0;
+}
+
+header h1 {
     margin: 0;
+    font-size: 3rem;
+    color: white;
 }
 
-main {
+.container {
+    display: flex;
+    justify-content: space-around;
     padding: 20px;
+}
+
+#add-pet-section,
+#filter-pets-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+}
+
+#add-pet-section h2,
+#filter-pets-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#add-pet-form label,
+#add-pet-form input,
+#add-pet-form select,
+#add-pet-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#add-pet-form input,
+#add-pet-form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#add-pet-form button {
+    padding: 10px;
+    background-color: #FF9999;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#add-pet-form button:hover {
+    background-color: #FF6666;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.filter-button {
+    background-color: white;
+    border: 2px solid #FF9999;
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.filter-button img {
+    width: 50px;
+    height: 50px;
+}
+
+.filter-button:hover {
+    background-color: #FFE5E5;
+    border-color: #FF6666;
 }
 
 #pets-list-section {
     background-color: white;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 80%;
 }
 
-ul#pets-list {
-    list-style-type: none;
+#pets-list-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#pets-list {
+    list-style: none;
     padding: 0;
 }
 
-ul#pets-list li {
-    background-color: #f9f9f9;
-    margin: 10px 0;
+#pets-list li {
+    background-color: #FFF2F2;
+    border: 1px solid #FFCCCC;
     padding: 10px;
-    border: 1px solid #ddd;
+    margin-bottom: 10px;
     border-radius: 5px;
+    text-align: left;
+}
+
+#pets-list li h3 {
+    margin: 0;
+}
+
+#pets-list li p {
+    margin: 5px 0;
+}
+
+#pets-list li button {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#pets-list li button:hover {
+    background-color: #FF9999;
+    color: white;
+}
+
+footer {
+    background-color: #FF9999;
+    padding: 10px 0;
+    color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
