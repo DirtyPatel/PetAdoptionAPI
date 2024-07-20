@@ -16,26 +16,21 @@ header h1 {
     color: white;
 }
 
-.filter-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 50px;
-}
+
 
 .filter-buttons {
     display: flex;
     justify-content: center;
-    gap: 40px;  /* Increase the gap between buttons */
-    margin-top: 50px;
+    gap: 120px;  /* Increase the gap between buttons */
+    margin-top: 190px;
 }
 
 .filter-button {
     background-color: white;
-    border: 2px solid #FF9999;
-    border-radius: 10px;
+    border: 6px solid #FF9999;
+    border-radius: 40px;
     padding: 100px;  /* Increase padding to make buttons bigger */
-    width: 500px;  /* Increase width to make buttons bigger */
+    width: 400px;  /* Increase width to make buttons bigger */
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
     text-align: center;
