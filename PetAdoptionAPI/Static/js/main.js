@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const petsList = document.getElementById('pets-list');
     const addPetForm = document.getElementById('add-pet-form');
 
+
+
     // Function to fetch and display pets based on type
     function fetchAndDisplayPets(type) {
         let queryType;
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
     // Add event listeners to filter buttons
     document.querySelectorAll('.filter-button').forEach(button => {
         button.addEventListener('click', function() {
@@ -73,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Function to adopt a pet
 function adoptPet(id) {
     fetch(`/update_pet/${id}`, {
         method: 'PUT',
@@ -83,8 +87,17 @@ function adoptPet(id) {
     })
     .then(response => response.json())
     .then(data => {
-        const type = document.querySelector('.filter-button.active').getAttribute('data-type');
-        fetchAndDisplayPets(type);
+        if (data.status === 'Pet updated successfully') {
+            alert('Pet adopted successfully');
+            const type = document.querySelector('.filter-button.active').getAttribute('data-type');
+            fetchAndDisplayPets(type);
+        } else {
+            alert('Error adopting pet');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error adopting pet');
     });
 }
 
@@ -94,7 +107,16 @@ function deletePet(id) {
     })
     .then(response => response.json())
     .then(data => {
-        const type = document.querySelector('.filter-button.active').getAttribute('data-type');
-        fetchAndDisplayPets(type);
+        if (data.status === 'Pet deleted successfully') {
+            alert('Pet deleted successfully');
+            const type = document.querySelector('.filter-button.active').getAttribute('data-type');
+            fetchAndDisplayPets(type);
+        } else {
+            alert('Error deleting pet');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting pet');
     });
 }

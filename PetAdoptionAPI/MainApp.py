@@ -43,14 +43,20 @@ def add_pet():
 @app.route('/update_pet/<pet_id>', methods=['PUT'])
 def update_pet(pet_id):
     updated_data = request.json
-    pets_collection.update_one({'_id': ObjectId(pet_id)}, {'$set': updated_data})
-    return jsonify({'status': 'Pet updated successfully'})
+    try:
+        pets_collection.update_one({'_id': ObjectId(pet_id)}, {'$set': updated_data})
+        return jsonify({'status': 'Pet updated successfully'})
+    except Exception as e:
+        return jsonify({'status': 'Error updating pet', 'error': str(e)}), 500
 
 
 @app.route('/delete_pet/<pet_id>', methods=['DELETE'])
 def delete_pet(pet_id):
-    pets_collection.delete_one({'_id': ObjectId(pet_id)})
-    return jsonify({'status': 'Pet deleted successfully'})
+    try:
+        pets_collection.delete_one({'_id': ObjectId(pet_id)})
+        return jsonify({'status': 'Pet deleted successfully'})
+    except Exception as e:
+        return jsonify({'status': 'Error deleting pet', 'error': str(e)}), 500
 
 
 @app.route('/add_sample_data', methods=['GET'])
