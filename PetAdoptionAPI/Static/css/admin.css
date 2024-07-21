@@ -145,12 +145,15 @@ body {
     gap: 20px; /* space between items */
 }
 
-.pets-list-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding-top: 20px; /* Add padding to the top */
+#pets-list-container {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+    margin: 10px;
 }
 
 .pet-item {

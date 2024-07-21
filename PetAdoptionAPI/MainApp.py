@@ -1,3 +1,4 @@
+from bson.errors import InvalidId
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
 from bson import ObjectId
@@ -47,21 +48,27 @@ def add_pet():
 def update_pet(pet_id):
     updated_data = request.json
     try:
-        # Ensure pet_id is a valid ObjectId
-        object_id = ObjectId(pet_id)
-        pet_crud.update_pet(object_id, updated_data)
-        return jsonify({'status': 'Pet updated successfully'})
+        pet_id_to_be_updated = int(pet_id)
+        result = pets_collection.update_one({'_id': pet_id_to_be_updated}, {'$set': updated_data})
+        if result.matched_count > 0:
+            return jsonify({'status': 'Pet updated successfully'})
+        else:
+            return jsonify({'status': 'Pet not found'}), 404
     except Exception as e:
         return jsonify({'status': 'Error updating pet', 'error': str(e)}), 500
 
 
 @app.route('/delete_pet/<pet_id>', methods=['DELETE'])
 def delete_pet(pet_id):
+    pet_id_to_be_deleted = int(pet_id)
     try:
-        # Ensure pet_id is a valid ObjectId
-        object_id = ObjectId(pet_id)
-        pet_crud.delete_pet(object_id)
-        return jsonify({'status': 'Pet deleted successfully'})
+        result = pets_collection.delete_one({'_id': pet_id_to_be_deleted})
+        if result.deleted_count > 0:
+            return jsonify({'status': 'Pet deleted successfully'})
+        else:
+            return jsonify({'status': 'Pet not found'}), 404
+    except InvalidId as e:
+        return jsonify({'status': 'Error deleting pet', 'error': 'Invalid pet ID format'}), 400
     except Exception as e:
         return jsonify({'status': 'Error deleting pet', 'error': str(e)}), 500
 

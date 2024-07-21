@@ -18,15 +18,13 @@ class PetCRUD:
             pet['_id'] = str(pet['_id'])
         return pet
 
-    def update_pet(pet_id, updated_data):
-        # Update the pet in the database
-        result = collection.update_one({'_id': pet_id}, {'$set': updated_data})
+    def update_pet(self, pet_id, data):
+        result = self.pets.update_one({"_id": pet_id}, {"$set": data})
         if result.matched_count == 0:
             raise Exception('No pet found with the given ID')
 
-    def delete_pet(pet_id):
-        # Delete the pet from the database
-        result = collection.delete_one({'_id': pet_id})
+    def delete_pet(self, pet_id):
+        result = self.pets.delete_one({"_id": pet_id})
         if result.deleted_count == 0:
             raise Exception('No pet found with the given ID')
 
