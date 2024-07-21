@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from PetCRUD import PetCRUD  # Import PetCRUD class
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['PetAdoptionDB']
