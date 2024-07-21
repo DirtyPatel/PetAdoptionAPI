@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const petsList = document.getElementById('pets-list');
     const addPetForm = document.getElementById('add-pet-form');
     const showAllPetsButton = document.getElementById('show-all-pets-button');
+     const editPetButton = document.getElementById('edit-pet-button');
+    const deletePetButton = document.getElementById('delete-pet-button');
     let selectedPetId = null; // Track the selected pet ID
 
     // Function to fetch and display all pets
