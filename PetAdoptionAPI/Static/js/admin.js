@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const petsList = document.getElementById('pets-list');
     const addPetForm = document.getElementById('add-pet-form');
     const showAllPetsButton = document.getElementById('show-all-pets-button');
+    let selectedPetId = null; // Track the selected pet ID
 
-// Function to fetch and display all pets
+    // Function to fetch and display all pets
     function fetchAndDisplayPets() {
         console.log('Fetching all pets...'); // Debugging log
         fetch('/api/search_pets', {
@@ -33,9 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p><strong>Age:</strong> ${pet.age}</p>
                         <p><strong>Description:</strong> ${pet.description}</p>
                         <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
-                        <button onclick="editPet('${pet._id}')">Edit</button>
-                        <button onclick="deletePet('${pet._id}')">Delete</button>
                     `;
+                    petItem.addEventListener('click', function() {
+                        selectedPetId = pet._id;
+                        populateForm(pet);
+                        document.querySelectorAll('.pet-item').forEach(item => item.classList.remove('selected'));
+                        petItem.classList.add('selected');
+                    });
                     petsList.appendChild(petItem);
                 });
             } else {
@@ -54,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Show All Pets button clicked'); // Debugging log
         fetchAndDisplayPets();
     });
-});
 
     // Function to populate form with selected pet data
     function populateForm(pet) {
@@ -65,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
         addPetForm.description.value = pet.description;
         addPetForm.adoption_status.value = pet.adoption_status;
     }
-
 
     // Add event listener to "Add Pet" button
     addPetForm.addEventListener('submit', function(event) {
@@ -85,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             alert('Pet added successfully');
             addPetForm.reset();
-            fetchAndDisplayAllPets();
+            fetchAndDisplayPets();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -111,35 +114,47 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(jsonData)
         })
-        .then(response => response.json())
-        .then(data => {
+         .then(response => response.json())
+    .then(data => {
+        if (data.status === 'Pet updated successfully') {
             alert('Pet updated successfully');
             addPetForm.reset();
             selectedPetId = null;
-            fetchAndDisplayAllPets();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error updating pet');
-        });
-    });
-
-// Function to delete a pet
-function deletePet(id) {
-    fetch(`/delete_pet/${id}`, {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'Pet deleted successfully') {
-            alert('Pet deleted successfully');
-            fetchAndDisplayPets(); // Refresh the pets list
+            fetchAndDisplayPets();
         } else {
-            alert('Error deleting pet');
+            alert('Error updating pet');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error deleting pet');
+        alert('Error updating pet');
     });
-}
+});
+
+    // Add event listener to "Delete Pet" button
+    document.getElementById('delete-pet-button').addEventListener('click', function() {
+        if (!selectedPetId) {
+            alert('Please select a pet to delete');
+            return;
+        }
+
+        fetch(`/delete_pet/${selectedPetId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Pet deleted successfully') {
+                alert('Pet deleted successfully');
+                selectedPetId = null;
+                addPetForm.reset();
+                fetchAndDisplayPets(); // Refresh the pets list
+            } else {
+                alert('Error deleting pet');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error deleting pet');
+        });
+    });
+});

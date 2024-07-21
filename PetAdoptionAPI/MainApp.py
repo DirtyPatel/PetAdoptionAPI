@@ -26,38 +26,30 @@ def admin():
 @app.route('/api/search_pets', methods=['POST'])
 def search_pets():
     try:
-        request_data = request.json
-        print('Request Data:', request_data)  # Debugging log
-
-        pet_types = request_data.get('types', [])
-        query = {}
-
-        if pet_types:
-            query['type'] = {'$in': pet_types}
-
-        pets = list(pets_collection.find(query))
-        for pet in pets:
-            pet['_id'] = str(pet['_id'])
-
-        print('Pets Fetched:', pets)  # Debugging log
+        query_params = request.json
+        pets = pet_crud.search_pets(query_params)
         return jsonify(pets)
     except Exception as e:
-        print('Error:', str(e))  # Debugging log
         return jsonify({'error': str(e)}), 500
 
 
 @app.route('/add_pet', methods=['POST'])
 def add_pet():
-    pet_data = request.json
-    pets_collection.insert_one(pet_data)
-    return jsonify({'status': 'Pet added successfully'})
+    try:
+        pet_data = request.json
+        pet_id = pet_crud.add_pet(pet_data)
+        return jsonify({'status': 'Pet added successfully', 'pet_id': pet_id})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/update_pet/<pet_id>', methods=['PUT'])
 def update_pet(pet_id):
     updated_data = request.json
     try:
-        pets_collection.update_one({'_id': ObjectId(pet_id)}, {'$set': updated_data})
+        # Ensure pet_id is a valid ObjectId
+        object_id = ObjectId(pet_id)
+        pet_crud.update_pet(object_id, updated_data)
         return jsonify({'status': 'Pet updated successfully'})
     except Exception as e:
         return jsonify({'status': 'Error updating pet', 'error': str(e)}), 500
@@ -66,7 +58,9 @@ def update_pet(pet_id):
 @app.route('/delete_pet/<pet_id>', methods=['DELETE'])
 def delete_pet(pet_id):
     try:
-        pets_collection.delete_one({'_id': ObjectId(pet_id)})
+        # Ensure pet_id is a valid ObjectId
+        object_id = ObjectId(pet_id)
+        pet_crud.delete_pet(object_id)
         return jsonify({'status': 'Pet deleted successfully'})
     except Exception as e:
         return jsonify({'status': 'Error deleting pet', 'error': str(e)}), 500
@@ -74,8 +68,11 @@ def delete_pet(pet_id):
 
 @app.route('/add_sample_data', methods=['GET'])
 def add_sample_data():
-    added_ids = pet_crud.add_sample_data()
-    return jsonify({'status': 'Sample data added successfully', 'ids': added_ids})
+    try:
+        added_ids = pet_crud.add_sample_data()
+        return jsonify({'status': 'Sample data added successfully', 'ids': added_ids})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
