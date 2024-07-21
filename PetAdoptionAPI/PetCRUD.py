@@ -1,4 +1,6 @@
+from bson import ObjectId
 from flask import jsonify
+from pymongo import collection
 
 
 class PetCRUD:
@@ -7,22 +9,24 @@ class PetCRUD:
         self.pets = self.db.pets
 
     def add_pet(self, pet_data):
-        pet_id = self.db.pets.insert_one(pet_data).inserted_id
+        pet_id = self.pets.insert_one(pet_data).inserted_id
         return str(pet_id)
 
     def get_pet(self, pet_id):
-        pet = self.db.pets.find_one({"_id": pet_id})
+        pet = self.pets.find_one({"_id": ObjectId(pet_id)})
         if pet:
             pet['_id'] = str(pet['_id'])
         return pet
 
     def update_pet(self, pet_id, data):
-        result = self.db.pets.update_one({"_id": pet_id}, {"$set": data})
-        return result.matched_count > 0
+        result = self.pets.update_one({"_id": pet_id}, {"$set": data})
+        if result.matched_count == 0:
+            raise Exception('No pet found with the given ID')
 
     def delete_pet(self, pet_id):
-        result = self.db.pets.delete_one({"_id": pet_id})
-        return result.deleted_count > 0
+        result = self.pets.delete_one({"_id": pet_id})
+        if result.deleted_count == 0:
+            raise Exception('No pet found with the given ID')
 
     def search_pets(self, query_params):
         query = {}
@@ -32,7 +36,10 @@ class PetCRUD:
             query['breed'] = query_params['breed']
         if 'adoption_status' in query_params:
             query['adoption_status'] = query_params['adoption_status']
-        return list(self.db.pets.find(query))
+        pets = list(self.pets.find(query))
+        for pet in pets:
+            pet['_id'] = str(pet['_id'])
+        return pets
 
     def add_sample_data(self):
         sample_data = [
