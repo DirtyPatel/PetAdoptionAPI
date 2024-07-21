@@ -1,8 +1,23 @@
+/* Styles for the admin page */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #e3dac9;
     color: #333;
     text-align: center;
+}
+#admin-button, #back-to-home-button, #show-all-pets-button, #add-pet-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#admin-button:hover, #back-to-home-button:hover, #show-all-pets-button:hover, #add-pet-form button:hover {
+    background-color: #45a049;
 }
 
 #admin-body {
@@ -70,7 +85,7 @@ body {
     margin-bottom: 5px;
 }
 
-#add-pet-form input, #add-pet-form select, #add-pet-form button {
+#add-pet-form input, #add-pet-form select {
     margin-bottom: 15px;
     padding: 10px;
     font-size: 16px;
@@ -82,16 +97,13 @@ body {
     background-color: #4CAF50;
     color: white;
     cursor: pointer;
+    margin-bottom: 10px;
 }
-
-#add-pet-form button:hover {
-    background-color: #45a049;
-}
-
 #edit-pet-button, #delete-pet-button {
     background-color: #FF6347;
     color: white;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 #edit-pet-button:hover, #delete-pet-button:hover {
@@ -99,13 +111,6 @@ body {
 }
 
 #show-all-pets-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     display: block;
     margin: 20px auto;
 }
@@ -113,6 +118,7 @@ body {
 #pets-list {
     list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
 .pet-item {

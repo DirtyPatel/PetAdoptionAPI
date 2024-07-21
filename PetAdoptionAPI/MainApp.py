@@ -12,6 +12,9 @@ pets_collection = db['pets']
 # Initialize PetCRUD class
 pet_crud = PetCRUD(db)
 
+pets = list(pets_collection.find())
+print(pets)
+
 
 @app.route('/')
 def index():
@@ -25,12 +28,25 @@ def admin():
 
 @app.route('/api/search_pets', methods=['POST'])
 def search_pets():
-    request_data = request.json
-    pet_types = request_data.get('types', [])
-    pets = list(pets_collection.find({'type': {'$in': pet_types}}))
-    for pet in pets:
-        pet['_id'] = str(pet['_id'])
-    return jsonify(pets)
+    try:
+        request_data = request.json
+        print('Request Data:', request_data)  # Debugging log
+
+        pet_types = request_data.get('types', [])
+        query = {}
+
+        if pet_types:
+            query['type'] = {'$in': pet_types}
+
+        pets = list(pets_collection.find(query))
+        for pet in pets:
+            pet['_id'] = str(pet['_id'])
+
+        print('Pets Fetched:', pets)  # Debugging log
+        return jsonify(pets)
+    except Exception as e:
+        print('Error:', str(e))  # Debugging log
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/add_pet', methods=['POST'])

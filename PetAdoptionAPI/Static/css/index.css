@@ -44,14 +44,6 @@ header h1 {
     border-color: #FF6666;
 }
 
-footer {
-    background-color: #a67b5b;
-    padding: 10px 0;
-    color: white;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
 
 #admin-button {
     position: absolute;
