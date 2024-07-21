@@ -28,7 +28,11 @@ def admin():
 def search_pets():
     try:
         query_params = request.json
-        pets = pet_crud.search_pets(query_params)
+        types = query_params.get('types', [])
+        query = {'type': {'$in': types}} if types else {}
+        pets = list(pets_collection.find(query))
+        for pet in pets:
+            pet['_id'] = str(pet['_id'])  # Convert ObjectId to string
         return jsonify(pets)
     except Exception as e:
         return jsonify({'error': str(e)}), 500

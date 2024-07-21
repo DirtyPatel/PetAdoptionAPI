@@ -45,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add event listeners to filter buttons
     document.querySelectorAll('.filter-button').forEach(button => {
         button.addEventListener('click', function () {
+            // Remove active class from all buttons
+            document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+            // Add active class to the clicked button
+            this.classList.add('active');
+            // Fetch and display pets based on the type
             const type = this.getAttribute('data-type');
             fetchAndDisplayPets(type);
         });
