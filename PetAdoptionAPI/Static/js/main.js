@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p><strong>Description:</strong> ${pet.description}</p>
                         <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
                         <button onclick="adoptPet('${pet._id}')">Adopt</button>
-                        <button onclick="deletePet('${pet._id}')">Delete</button>
+                       // <button onclick="deletePet('${pet._id}')">Delete</button>
                     `;
                     petsList.appendChild(petItem);
                 });
