@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 alert('Pet added successfully');
-                // Optionally, clear the form fields after successful submission
                 addPetForm.reset();
             })
             .catch(error => {
