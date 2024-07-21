@@ -4,29 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>Pet Adoption Catalog</title>
 </head>
 
 <body>
     <header>
         <h1>Pet Adoption Catalog</h1>
-        <button id="admin-button" onclick="window.location.href='/admin'">Admin</button>>
+        <button id="admin-button" onclick="window.location.href='/admin'">Admin</button>
     </header>
     <main>
         <section id="filter-pets-section">
             <div class="filter-buttons">
                 <button class="filter-button" data-type="Dog">
-                    <img src="/PetAdoptionAPI/Static/cute_dog.jpg" alt="Dogs">
-                    Dogs
+                    <img src="{{ url_for('static', filename='cute_dog.jpg') }}" alt="Dogs">
+                    <span>Dogs</span>
                 </button>
                 <button class="filter-button" data-type="Cat">
-                    <img src="/PetAdoptionAPI/Static/baby_kitten.jpg" alt="Cats">
-                    Cats
+                    <img src="{{ url_for('static', filename='baby_kitten.jpg') }}" alt="Cats">
+                    <span>Cats</span>
                 </button>
                 <button class="filter-button" data-type="Other">
-                    <img src="/PetAdoptionAPI/Static/bird_and_rabbit.jpg" alt="Other Animals">
-                    Other Animals
+                    <img src="{{ url_for('static', filename='bird_and_rabbit.jpg') }}" alt="Other Animals">
+                    <span>Other Animals</span>
                 </button>
             </div>
         </section>
@@ -37,7 +37,7 @@
     <footer>
         <p>&copy; 2024 Pet Adoption</p>
     </footer>
-    <script src="/static/js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
 </html>
