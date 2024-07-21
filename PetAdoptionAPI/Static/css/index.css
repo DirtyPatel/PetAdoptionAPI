@@ -1,4 +1,12 @@
+html,
 body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
     font-family: Arial, sans-serif;
     background-color: #e3dac9;
     color: #333;
@@ -16,27 +24,55 @@ header h1 {
     color: white;
 }
 
+main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .filter-buttons {
     display: flex;
     justify-content: center;
-    gap: 120px;  /* Increase the gap between buttons */
-    margin-top: 190px;
+    gap: 120px;
+    margin-top: 20px;
 }
 
 .filter-button {
+    position: relative;
     background-color: white;
     border: 6px solid #FF9999;
     border-radius: 40px;
-    padding: 100px;  /* Increase padding to make buttons bigger */
-    width: 400px;  /* Increase width to make buttons bigger */
+    padding: 0;
+    width: 400px;
+    height: 400px;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .filter-button img {
-    width: 70px;  /* Increase the image size */
-    height: 70px;  /* Increase the image size */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.filter-button span {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 .filter-button:hover {
@@ -44,6 +80,43 @@ header h1 {
     border-color: #FF6666;
 }
 
+#pets-list-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+#pets-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.pet-container {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+    margin: 10px;
+    /* Add margin to create space between containers */
+}
+
+.pet-container h3 {
+    margin-top: 0;
+}
+
+.pet-container p {
+    margin: 10px 0;
+}
 
 #admin-button {
     position: absolute;
@@ -60,4 +133,14 @@ header h1 {
 
 #admin-button:hover {
     background-color: #45a049;
+}
+
+footer {
+    background-color: #a67b5b;
+    padding: 10px 0;
+    color: white;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    /* Ensure the footer stays at the bottom of the content */
 }
