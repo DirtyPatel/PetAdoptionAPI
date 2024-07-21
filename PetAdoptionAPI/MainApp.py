@@ -12,9 +12,6 @@ pets_collection = db['pets']
 # Initialize PetCRUD class
 pet_crud = PetCRUD(db)
 
-pets = list(pets_collection.find())
-print(pets)
-
 
 @app.route('/')
 def index():

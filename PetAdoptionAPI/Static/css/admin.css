@@ -5,7 +5,9 @@ body {
     background-color: #e3dac9;
     color: #333;
     text-align: center;
+    margin: 0;
 }
+
 #admin-button, #back-to-home-button, #show-all-pets-button, #add-pet-form button {
     padding: 10px 20px;
     font-size: 16px;
@@ -24,16 +26,24 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100vh;
     margin: 0;
+    padding: 0;
+}
+
+#admin-main {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 #admin-header {
     width: 100%;
     background-color: #bc987e;
     padding: 20px 0;
-    position: relative;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -69,6 +79,8 @@ body {
     max-width: 400px;
     width: 100%;
     text-align: left;
+    margin-right: 20px;
+    flex: 1;
 }
 
 #add-pet-section h2 {
@@ -99,6 +111,7 @@ body {
     cursor: pointer;
     margin-bottom: 10px;
 }
+
 #edit-pet-button, #delete-pet-button {
     background-color: #FF6347;
     color: white;
@@ -115,19 +128,39 @@ body {
     margin: 20px auto;
 }
 
+#pets-list-section {
+    flex: 2;
+    margin-left: 20px;
+    width: calc(100% - 420px); /* Adjust the width to accommodate the form container */
+    text-align: left;
+}
+
 #pets-list {
     list-style: none;
     padding: 0;
-    margin-top: 20px;
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px; /* space between items */
+}
+
+.pets-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 20px; /* Add padding to the top */
 }
 
 .pet-item {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
 .pet-item:hover {
@@ -137,4 +170,34 @@ body {
 .selected {
     background-color: #e0e0e0;
     border-color: #4CAF50;
+}
+
+.pet-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.pet-item p {
+    margin: 5px 0;
+}
+
+.pet-item button {
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pet-item button:hover {
+    background-color: #45a049;
+}
+
+.pet-item button.delete {
+    background-color: #FF6347;
+}
+
+.pet-item button.delete:hover {
+    background-color: #FF4500;
 }
