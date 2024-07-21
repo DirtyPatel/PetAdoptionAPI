@@ -29,23 +29,14 @@ def admin():
 @app.route('/api/search_pets', methods=['POST'])
 def search_pets():
     try:
-        request_data = request.json
-        print('Request Data:', request_data)  # Debugging log
-
-        pet_types = request_data.get('types', [])
-        query = {}
-
-        if pet_types:
-            query['type'] = {'$in': pet_types}
-
+        query_params = request.json
+        types = query_params.get('types', [])
+        query = {'type': {'$in': types}} if types else {}
         pets = list(pets_collection.find(query))
         for pet in pets:
-            pet['_id'] = str(pet['_id'])
-
-        print('Pets Fetched:', pets)  # Debugging log
+            pet['_id'] = str(pet['_id'])  # Convert ObjectId to string
         return jsonify(pets)
     except Exception as e:
-        print('Error:', str(e))  # Debugging log
         return jsonify({'error': str(e)}), 500
 
 
