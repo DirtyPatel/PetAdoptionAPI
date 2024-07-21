@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const petsList = document.getElementById('pets-list');
     const addPetForm = document.getElementById('add-pet-form');
-
-    // Function to fetch and display pets based on type
+// Function to fetch and display pets based on type
     function fetchAndDisplayPets(type) {
         let queryType;
         if (type === 'Other') {
@@ -26,19 +25,31 @@ document.addEventListener('DOMContentLoaded', function () {
                         let petItem = document.createElement('li');
                         petItem.classList.add('pet-container');
                         petItem.innerHTML = `
-                        <h3>${pet.name}</h3>
-                        <p><strong>Breed:</strong> ${pet.breed}</p>
-                        <p><strong>Type:</strong> ${pet.type}</p>
-                        <p><strong>Age:</strong> ${pet.age}</p>
-                        <p><strong>Description:</strong> ${pet.description}</p>
-                        <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
-                    `;
+                            <h3>${pet.name}</h3>
+                            <p><strong>Breed:</strong> ${pet.breed}</p>
+                            <p><strong>Type:</strong> ${pet.type}</p>
+                            <p><strong>Age:</strong> ${pet.age}</p>
+                            <p><strong>Description:</strong> ${pet.description}</p>
+                            <p><strong>Adoption Status:</strong> ${pet.adoption_status}</p>
+                            <button class="adopt-button" data-name="${pet.name}">Adopt Me</button>
+                        `;
                         petsList.appendChild(petItem);
+                    });
+
+                    // Add event listeners for the "Adopt" buttons
+                    document.querySelectorAll('.adopt-button').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const petName = this.getAttribute('data-name');
+                            alert(`Thank you for your interest in ${petName}. Pet adopted successfully!`);
+                        });
                     });
                 } else {
                     petsList.innerHTML = '<p>No pets available.</p>';
                 }
                 petsList.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching pets:', error);
             });
     }
 
@@ -53,26 +64,5 @@ document.addEventListener('DOMContentLoaded', function () {
             const type = this.getAttribute('data-type');
             fetchAndDisplayPets(type);
         });
-    });
-
-    // Add a new pet
-    addPetForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        let formData = new FormData(this);
-        let jsonData = {};
-        formData.forEach((value, key) => jsonData[key] = value);
-
-        fetch('/add_pet', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                const type = document.querySelector('.filter-button.active').getAttribute('data-type');
-                fetchAndDisplayPets(type);
-            });
     });
 });
