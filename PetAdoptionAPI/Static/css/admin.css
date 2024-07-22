@@ -35,7 +35,7 @@ body {
 #admin-main {
     display: flex;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1500px;
     justify-content: space-between;
     margin-top: 20px;
 }
@@ -49,8 +49,9 @@ body {
 }
 
 #admin-header h1 {
+    font-family: 'Lobster', cursive;
     margin: 0;
-    font-size: 3rem;
+    font-size: 5rem;
     color: white;
 }
 
@@ -203,4 +204,13 @@ body {
 
 .pet-item button.delete:hover {
     background-color: #FF4500;
+}
+footer {
+    background-color: #a67b5b;
+    padding: 10px 0;
+    color: white;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    /* Ensure the footer stays at the bottom of the content */
 }
