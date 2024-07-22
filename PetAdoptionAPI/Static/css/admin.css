@@ -82,6 +82,7 @@ body {
     text-align: left;
     margin-right: 20px;
     flex: 1;
+    margin-bottom: 20px;
 }
 
 #add-pet-section h2 {
